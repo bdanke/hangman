@@ -2,7 +2,7 @@ class Dictionary
 	DEFAULT_FILE = 'dictionary.txt'
 
 	attr_accessor :words
-	
+
 	def initialize(file = DEFAULT_FILE)
 		@words = File.readlines(file).map(&:chomp)
 	end
@@ -16,9 +16,11 @@ class Dictionary
 			false
 		else
 			letters_off = 0
+
 			word1.split('').each_index do |i|
 				letters_off += 1 if word1[i] != word2[i]
 			end
+
 			letters_off == 1
 		end
 	end

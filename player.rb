@@ -1,6 +1,6 @@
 class Player
 	attr_accessor :guesses
-	
+
 	def initialize
 		@guesses = []
 		@secret_length = nil
@@ -17,7 +17,7 @@ class Player
 
 	def locations_of_guess(guess)
 		# Override in child to get rid of error
-		raise NotImplementedError.new("Player#locations_of_guess not implemented!") 
+		raise NotImplementedError.new("Player#locations_of_guess not implemented!")
 	end
 end
 
@@ -50,9 +50,11 @@ class HumanPlayer < Player
 		input = prompt("Is #{guess} in your word?: ", "Invalid input!")
 
 		locations = []
+
 		# If the player says the guessed letter is in the secret word
 		if (input.downcase == 'y' || input.downcase == 'yes' )
-			# Prompt for the locations
+
+      # Prompt for the locations
 			prompt_msg = "Enter locations of '#{guess}' in your word separated by spaces: "
 			error_msg = "Invalid input! Enter location of #{guess} in your word separated by spaces!\n"
 			input = prompt(prompt_msg, error_msg) do |input|
@@ -86,34 +88,36 @@ class ComputerPlayer < Player
 		@dictionary.words.select! do |word|
 			word.length == known_string.length && word =~ regex
 		end
-		
+
 		freqs = letter_frequency_hash(@dictionary.words)
 
 		# Get array of keys, sorted by value in descending order
 		sorted_keys = freqs.sort_by { |letter, count| count }.reverse.map{ |pair| pair[0] }
-		
+
 		# Get rid of guesses already made
 		best_guesses = sorted_keys - @guesses
-		
+
 		# Choose first guess in list and add to guesses made
 		guess = best_guesses[0]
 		@guesses << guess
-		
+
 		guess
 	end
 
 	def letter_frequency_hash(words)
 		freqs = Hash.new(0)
+
 		words.each do |word|
 			word.each_char { |letter| freqs[letter] += 1 }
 		end
-		
+
 		freqs
 	end
 
 	def locations_of_guess(guess)
 		locations = []
-		if @secret_word.include?(guess)	
+
+		if @secret_word.include?(guess)
 			@secret_word.split('').each_with_index do |letter, location|
 				locations << location if letter == guess
 			end

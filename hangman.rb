@@ -15,7 +15,7 @@ class Hangman
 		@players = get_players
 
 		guesser, checker = @players
-		
+
 		# Get length from player who made secret word
 		secret_length = checker.secret_length
 
@@ -32,12 +32,14 @@ class Hangman
 
 			# Find locations of guessed letter in secret word
 			locations = checker.locations_of_guess(guess)
-			if locations.any? 
+
+			if locations.any?
 				# Correct guess
 				puts "You guessed '#{guess}' correctly!"
+
 				# Update display string
 				locations.each { |i| known_string[i] = guess }
-			else 
+			else
 				# Incorrect guess
 				puts "Sorry, you guessed '#{guess}' incorrectly!"
 
